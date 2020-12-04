@@ -1,7 +1,7 @@
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-val FIRST_DAY_EXPENSES = arrayListOf(1735,
+val REAL_EXPENSES = arrayListOf(1735,
         1700,
         1358,
         1908,
@@ -205,13 +205,13 @@ val FIRST_DAY_EXPENSES = arrayListOf(1735,
 
 internal class ExpenseReportTest {
     @Test
-    internal fun `should multiply expenses which sum is 2020`() {
+    internal fun `should multiply the two expenses which sum is 2020`() {
         // Given
         val expenses = arrayListOf(1721,979,366,299,675,1456)
         val expenseReport = ExpenseReport(expenses)
 
         // When
-        val result = expenseReport.get2020Multiplication()
+        val result = expenseReport.getTwo2020Multiplication()
 
         // Then
         assertThat(result).isEqualTo(514579)
@@ -220,12 +220,37 @@ internal class ExpenseReportTest {
     @Test
     internal fun `first day expenses`() {
         // Given
-        val expenseReport = ExpenseReport(FIRST_DAY_EXPENSES)
+        val expenseReport = ExpenseReport(REAL_EXPENSES)
 
         // When
-        val result = expenseReport.get2020Multiplication()
+        val result = expenseReport.getTwo2020Multiplication()
 
         // Then
         assertThat(result).isEqualTo(878724)
+    }
+
+    @Test
+    internal fun `should multiply the three expenses which sum is 2020`() {
+        // Given
+        val expenses = arrayListOf(1721,979,366,299,675,1456)
+        val expenseReport = ExpenseReport(expenses)
+
+        // When
+        val result = expenseReport.getThree2020Multiplication()
+
+        // Then
+        assertThat(result).isEqualTo(241861950)
+    }
+
+    @Test
+    internal fun `second day expenses`() {
+        // Given
+        val expenseReport = ExpenseReport(REAL_EXPENSES)
+
+        // When
+        val result = expenseReport.getThree2020Multiplication()
+
+        // Then
+        assertThat(result).isEqualTo(201251610)
     }
 }
