@@ -1,7 +1,7 @@
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-val REAL_EXPENSES = arrayListOf(1735,
+val REAL_EXPENSES = listOf(1735,
         1700,
         1358,
         1908,
@@ -207,7 +207,7 @@ internal class ExpenseReportTest {
     @Test
     internal fun `should multiply the two expenses which sum is 2020`() {
         // Given
-        val expenses = arrayListOf(1721,979,366,299,675,1456)
+        val expenses = listOf(1721,979,366,299,675,1456)
         val expenseReport = ExpenseReport(expenses)
 
         // When
@@ -218,7 +218,7 @@ internal class ExpenseReportTest {
     }
 
     @Test
-    internal fun `first day expenses`() {
+    internal fun `part 1 expenses`() {
         // Given
         val expenseReport = ExpenseReport(REAL_EXPENSES)
 
@@ -232,7 +232,7 @@ internal class ExpenseReportTest {
     @Test
     internal fun `should multiply the three expenses which sum is 2020`() {
         // Given
-        val expenses = arrayListOf(1721,979,366,299,675,1456)
+        val expenses = listOf(1721,979,366,299,675,1456)
         val expenseReport = ExpenseReport(expenses)
 
         // When
@@ -243,7 +243,7 @@ internal class ExpenseReportTest {
     }
 
     @Test
-    internal fun `second day expenses`() {
+    internal fun `part 2 expenses`() {
         // Given
         val expenseReport = ExpenseReport(REAL_EXPENSES)
 

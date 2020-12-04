@@ -1,4 +1,4 @@
-class ExpenseReport(private val expenses: ArrayList<Int>) {
+class ExpenseReport(private val expenses: List<Int>) {
     fun getTwo2020Multiplication(): Int {
         val expensesToMultiply = expenses.filter { expense ->
             expenses.map { otherExpense ->
