@@ -66,9 +66,8 @@ internal class PasswordsTest {
     }
 
     @Test
-    fun `day 2 - part 1`() {
+    fun `day 2`() {
         // Given
-        println("Working Directory = " + System.getProperty("user.dir"));
         val passwords = Passwords(REAL_PASSWORDS_AND_VALIDATIONS)
 
         // When
