@@ -203,9 +203,9 @@ val REAL_EXPENSES = listOf(1735,
         1645,
 )
 
-internal class ExpenseReportTest {
+class ExpenseReportTest {
     @Test
-    internal fun `should multiply the two expenses which sum is 2020`() {
+    fun `should multiply the two expenses which sum is 2020`() {
         // Given
         val expenses = listOf(1721,979,366,299,675,1456)
         val expenseReport = ExpenseReport(expenses)
@@ -218,7 +218,7 @@ internal class ExpenseReportTest {
     }
 
     @Test
-    internal fun `part 1 expenses`() {
+    fun `part 1 expenses`() {
         // Given
         val expenseReport = ExpenseReport(REAL_EXPENSES)
 
@@ -230,7 +230,7 @@ internal class ExpenseReportTest {
     }
 
     @Test
-    internal fun `should multiply the three expenses which sum is 2020`() {
+    fun `should multiply the three expenses which sum is 2020`() {
         // Given
         val expenses = listOf(1721,979,366,299,675,1456)
         val expenseReport = ExpenseReport(expenses)
@@ -243,7 +243,7 @@ internal class ExpenseReportTest {
     }
 
     @Test
-    internal fun `part 2 expenses`() {
+    fun `part 2 expenses`() {
         // Given
         val expenseReport = ExpenseReport(REAL_EXPENSES)
 

@@ -8,14 +8,15 @@ class Passwords(private val textPasswordsAndValidations: List<String>) {
     }
 
     class Password(private val textPasswordAndValidation: String) {
-        private val minimumOccurrences = parseInt(textPasswordAndValidation.split(" ")[0].split("-")[0])
-        private val maximumOccurrences = parseInt(textPasswordAndValidation.split(" ")[0].split("-")[1])
+        private val firstRequestedPosition = parseInt(textPasswordAndValidation.split(" ")[0].split("-")[0])
+        private val secondRequestedPosition = parseInt(textPasswordAndValidation.split(" ")[0].split("-")[1])
         private val mandatoryLetter = textPasswordAndValidation.split(" ")[1][0]
         private val password = textPasswordAndValidation.split(" ")[2]
 
         fun isValid(): Boolean {
-            val numberOfMandatoryLetters = password.filter { it.equals(mandatoryLetter) }.count()
-            return numberOfMandatoryLetters in minimumOccurrences..maximumOccurrences
+            val firstMandatoryPositionLetter = password[firstRequestedPosition - 1]
+            val secondMandatoryPositionLetter = password.elementAtOrNull(secondRequestedPosition - 1)
+            return (firstMandatoryPositionLetter == mandatoryLetter) xor (secondMandatoryPositionLetter == mandatoryLetter)
         }
 
     }

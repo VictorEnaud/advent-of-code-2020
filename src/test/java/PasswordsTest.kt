@@ -6,9 +6,9 @@ val REAL_PASSWORDS_AND_VALIDATIONS = File("src/test/resources/DAY_2_DATA.txt").r
 
 internal class PasswordsTest {
     @Test
-    internal fun `password should be valid when it contains the requested letter with the requested occurence`() {
+    fun `password should be valid when it contains the requested letter only once at the first requested position`() {
         // Given
-        val passwords = Passwords(listOf("1-3 a: aaabcde"))
+        val passwords = Passwords(listOf("1-3 a: adbcde"))
 
         // When
         val numberOfValidPasswords = passwords.validPasswords()
@@ -18,9 +18,21 @@ internal class PasswordsTest {
     }
 
     @Test
-    internal fun `password should not be valid when it does not contain the requested letter`() {
+    fun `password should be valid when it contains the requested letter only once at the second requested position`() {
         // Given
-        val passwords = Passwords(listOf("1-3 b: cdefg"))
+        val passwords = Passwords(listOf("1-3 b: adbcde"))
+
+        // When
+        val numberOfValidPasswords = passwords.validPasswords()
+
+        // Then
+        assertThat(numberOfValidPasswords).isEqualTo(1)
+    }
+
+    @Test
+    fun `password should not be valid when it does not contain the requested letter at any of the requested positions`() {
+        // Given
+        val passwords = Passwords(listOf("1-4 b: cbefg"))
 
         // When
         val numberOfValidPasswords = passwords.validPasswords()
@@ -30,9 +42,9 @@ internal class PasswordsTest {
     }
 
     @Test
-    internal fun `password should not be valid when it does not contains enough occurences of requested letter`() {
+    fun `password should not be valid when it contains the requested letter at both requested positions`() {
         // Given
-        val passwords = Passwords(listOf("2-3 b: bcdefg"))
+        val passwords = Passwords(listOf("2-3 b: abbefg"))
 
         // When
         val numberOfValidPasswords = passwords.validPasswords()
@@ -42,19 +54,19 @@ internal class PasswordsTest {
     }
 
     @Test
-    internal fun `password should not be valid when it contains too much occurences of requested letter`() {
+    fun `password should be valid when it contains the requested letter at the first position and is shorter than requested second position`() {
         // Given
-        val passwords = Passwords(listOf("2-10 b: bbbbbbbbbbb"))
+        val passwords = Passwords(listOf("2-20 b: bbbbbbbbbbb"))
 
         // When
         val numberOfValidPasswords = passwords.validPasswords()
 
         // Then
-        assertThat(numberOfValidPasswords).isEqualTo(0)
+        assertThat(numberOfValidPasswords).isEqualTo(1)
     }
 
     @Test
-    internal fun `day 2 - part 1`() {
+    fun `day 2 - part 1`() {
         // Given
         println("Working Directory = " + System.getProperty("user.dir"));
         val passwords = Passwords(REAL_PASSWORDS_AND_VALIDATIONS)
@@ -63,6 +75,6 @@ internal class PasswordsTest {
         val numberOfValidPasswords = passwords.validPasswords()
 
         // Then
-        assertThat(numberOfValidPasswords).isEqualTo(546)
+        assertThat(numberOfValidPasswords).isEqualTo(275)
     }
 }
