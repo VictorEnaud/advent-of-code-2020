@@ -198,16 +198,29 @@ internal class BoardingPassTest {
         assertThat(seatId).isEqualTo(820)
     }
 
-
     @Test
     fun `Day 5 - Part 1`() {
         // Given
-        val boardingPasses = REAL_BOARDING_PASSES.map { BoardingPass(it)}
+        val boardingPasses = REAL_BOARDING_PASSES.map { BoardingPass(it) }
 
         // When
-        val boardingPassesSeatIds = boardingPasses.map {it.seatId()}
+        val boardingPassesSeatIds = boardingPasses.map { it.seatId() }
 
         // Then
         assertThat(boardingPassesSeatIds.maxOrNull()).isEqualTo(888)
+    }
+
+    @Test
+    fun `Day 5 - Part 2`() {
+        // Given
+        val boardingPasses = REAL_BOARDING_PASSES.map { BoardingPass(it) }
+
+        // When
+        val boardingPassesSeatIds = boardingPasses.map { it.seatId() }.sorted()
+
+        // Then
+        val missingSeatId =
+            boardingPassesSeatIds.filterIndexed { index, boardingPassSeatId -> if (index > 0) boardingPassSeatId - boardingPassesSeatIds[index - 1] != 1 else false }
+        assertThat(missingSeatId.single()-1).isEqualTo(522)
     }
 }
