@@ -20,7 +20,7 @@ internal class CustomFormTest {
     }
 
     @Test
-    fun `numberOfCheckedConditionsByGroup should return number of conditions checked by 2 person`() {
+    fun `numberOfCheckedConditionsByGroup should not count a condition if not checked by all group`() {
         // Given
         val customForm = CustomForm(listOf("abd", "efg"))
 
@@ -28,11 +28,11 @@ internal class CustomFormTest {
         val numberOfCheckedConditionsByGroup = customForm.numberOfCheckedConditionsByGroup()
 
         // Then
-        assertThat(numberOfCheckedConditionsByGroup).isEqualTo(6)
+        assertThat(numberOfCheckedConditionsByGroup).isEqualTo(0)
     }
 
     @Test
-    fun `numberOfCheckedConditionsByGroup should not count twice a condition checked by different people`() {
+    fun `numberOfCheckedConditionsByGroup should count condition checked by all group`() {
         // Given
         val customForm = CustomForm(listOf("abd", "bdg"))
 
@@ -40,11 +40,11 @@ internal class CustomFormTest {
         val numberOfCheckedConditionsByGroup = customForm.numberOfCheckedConditionsByGroup()
 
         // Then
-        assertThat(numberOfCheckedConditionsByGroup).isEqualTo(4)
+        assertThat(numberOfCheckedConditionsByGroup).isEqualTo(2)
     }
 
     @Test
-    fun `Day 6 - 1`() {
+    fun `Day 6`() {
         // Given
         val customForms = REAL_CUSTOM_FORMS.map{CustomForm(it.split("\n"))}
 
@@ -52,6 +52,6 @@ internal class CustomFormTest {
         val numberOfCheckedConditionsByGroups = customForms.map{it.numberOfCheckedConditionsByGroup()}
 
         // Then
-        assertThat(numberOfCheckedConditionsByGroups.sum()).isEqualTo(6161)
+        assertThat(numberOfCheckedConditionsByGroups.sum()).isEqualTo(2971)
     }
 }
