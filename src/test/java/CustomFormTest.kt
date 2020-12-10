@@ -1,7 +1,6 @@
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import java.io.File
-import java.util.Arrays.asList
 
 val REAL_CUSTOM_FORMS = File("src/test/resources/DAY_6_DATA.txt").readText()
     .split("\n\n")
