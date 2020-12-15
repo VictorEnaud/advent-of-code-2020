@@ -76,4 +76,36 @@ internal class GameConsoleTest {
         // Then
         assertThat(finalAccumulatorValue).isEqualTo(1563)
     }
+
+    @Test
+    fun `Day 8 - part 2`() {
+        // Given
+        val jmpIndexes = REAL_CONSOLE_INPUT.mapIndexedNotNull { index: Int, instruction: String ->
+            if (instruction.contains("jmp")) index else null
+        }
+        val nopIndexes = REAL_CONSOLE_INPUT.mapIndexedNotNull { index: Int, instruction: String ->
+            if (instruction.contains("nop")) index else null
+        }
+        var infiniteLoop = true
+        var finalAccumulatorValue = 0
+        var currentIndex = 0
+
+        // When
+        while (infiniteLoop) {
+            try {
+                infiniteLoop = false
+                val newInstruction = REAL_CONSOLE_INPUT[jmpIndexes[currentIndex]].replace("jmp", "nop")
+                val mutableInstructions = REAL_CONSOLE_INPUT.toMutableList()
+                mutableInstructions[jmpIndexes[currentIndex]] = newInstruction
+                val gameConsole = GameConsole(mutableInstructions)
+                finalAccumulatorValue = gameConsole.runPorcelain()
+            } catch (exception: GameConsole.InfiniteLoopException) {
+                infiniteLoop = true
+                currentIndex++
+            }
+        }
+
+        // Then
+        assertThat(finalAccumulatorValue).isEqualTo(767)
+    }
 }

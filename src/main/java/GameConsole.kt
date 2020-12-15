@@ -12,6 +12,15 @@ class GameConsole(textInstructions: List<String>) {
         return accumulator
     }
 
+    fun runPorcelain():Int {
+        while(continueRun()) {
+            instructionsRunt.add(currentInstructionIndex)
+            runInstruction(instructions[currentInstructionIndex])
+        }
+        if (instructionsRunt.contains(currentInstructionIndex)) throw InfiniteLoopException()
+        return accumulator
+    }
+
     private fun continueRun(): Boolean {
         return currentInstructionIndex < instructions.size && !instructionsRunt.contains(currentInstructionIndex)
     }
@@ -30,6 +39,8 @@ class GameConsole(textInstructions: List<String>) {
             }
         }
     }
+
+    inner class InfiniteLoopException : Throwable()
 
 
     inner class Instruction(textInstruction: String) {
