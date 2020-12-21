@@ -10,6 +10,23 @@ class Cryptology(textValues: List<String>) {
         return null
     }
 
+    fun extremesOfSumRangeForNumber(invalidNumber: Long): Pair<Long?, Long?> {
+        var intervalStartIndex = 0
+        var sumInterval = emptyList<Long>()
+
+        while(sumInterval.sum() != invalidNumber) {
+            var intervalSum = 0L
+            val valuesToConsider = values.drop(intervalStartIndex)
+            sumInterval = valuesToConsider.takeWhile { value ->
+                intervalSum += value
+                return@takeWhile intervalSum <= invalidNumber
+            }
+            intervalStartIndex++
+        }
+
+        return Pair(sumInterval.minOrNull(), sumInterval.maxOrNull())
+    }
+
     private fun isValid(previousNumbersToConsider: Int, currentIndex: Int): Boolean {
         val valuesToConsider = values.slice(currentIndex-previousNumbersToConsider until currentIndex)
         var isValid = false
