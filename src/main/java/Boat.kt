@@ -3,17 +3,21 @@ import kotlin.math.abs
 class Boat(textInstructions: List<String>) {
     private val instructions = textInstructions.map { Instruction(it) }
 
-    private var orientation = Orientation()
     private var position = Position()
+    private var waypoint = Waypoint()
 
     fun move() {
         instructions.forEach {
             if (it.isDirection()) {
-                position.move(it.command, it.value)
+                waypoint.move(it.command, it.value)
             } else if (it.isOrientation()) {
-                orientation.rotate(it.command, it.value)
+                if (it.command == "R") {
+                    waypoint.coordinates.rotateClockwise(it.value)
+                } else {
+                    waypoint.coordinates.rotateCounterClockwise(it.value)
+                }
             } else {
-                position.move(orientation.direction(), it.value)
+                position.move(waypoint, it.value)
             }
         }
     }
@@ -35,45 +39,73 @@ class Boat(textInstructions: List<String>) {
         }
     }
 
-    inner class Orientation() {
-        private var MAX_DEGREES = 360
-        private var orientation = 90
-
-        fun direction(): String {
-            return when (orientation) {
-                0 -> "N"
-                90 -> "E"
-                180 -> "S"
-                270 -> "W"
-                else -> "other"
-            }
+    inner class Position() {
+        private var coordinates = Coordinates(0, 0, 0, 0)
+        fun move(waypoint: Waypoint, value: Int) {
+            coordinates += waypoint.coordinates * value
         }
 
-        fun rotate(direction: String, rotation: Int) {
+        fun manhattanDistance(): Int {
+            return coordinates.manhattanDistance()
+        }
+
+    }
+
+    inner class Waypoint() {
+        internal var coordinates = Coordinates(1, 0, 10, 0)
+        fun move(direction: String, value: Int) {
             when (direction) {
-                "L" -> orientation = (orientation - rotation + MAX_DEGREES) % MAX_DEGREES
-                "R" -> orientation = (orientation + rotation) % MAX_DEGREES
+                "N" -> coordinates.north += value
+                "S" -> coordinates.south += value
+                "E" -> coordinates.east += value
+                "W" -> coordinates.west += value
             }
         }
     }
 
-    inner class Position() {
-        private var north = 0
-        private var south = 0
-        private var east = 0
-        private var west = 0
+    inner class Coordinates(
+        internal var north: Int,
+        internal var south: Int,
+        internal var east: Int,
+        internal var west: Int
+    ) {
+        fun manhattanDistance(): Int {
+            return abs(north - south) + abs(east - west)
+        }
 
-        fun move(direction: String, value: Int) {
-            when (direction) {
-                "N" -> north += value
-                "S" -> south += value
-                "E" -> east += value
-                "W" -> west += value
+        fun rotateClockwise(degrees: Int) {
+            val quarter = degrees / 90
+            for (rotation in 1..quarter) {
+                val oldSouth = south
+                south = east
+                east = north
+                north = west
+                west = oldSouth
             }
         }
 
-        fun manhattanDistance(): Int {
-            return abs(north - south) + abs(east - west)
+        fun rotateCounterClockwise(degrees: Int) {
+            val quarter = degrees / 90
+            for (rotation in 1..quarter) {
+                val oldSouth = south
+                south = west
+                west = north
+                north = east
+                east = oldSouth
+            }
+        }
+
+        operator fun plus(coordinates: Coordinates): Coordinates {
+            return Coordinates(
+                north + coordinates.north,
+                south + coordinates.south,
+                east + coordinates.east,
+                west + coordinates.west
+            )
+        }
+
+        operator fun times(value: Int): Coordinates {
+            return Coordinates(north * value, south * value, east * value, west * value)
         }
     }
 }

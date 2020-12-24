@@ -6,63 +6,63 @@ val REAL_BOAT_INPUT = File("src/test/resources/DAY_12_DATA.txt").readLines()
 
 internal class BoatTest {
     @Test
-    fun `should move boat north when instruction is N`() {
+    fun `should have waypoint 10 east 1 north at the beginning`() {
         // Given
-        val boat = Boat(listOf("N10"))
+        val boat = Boat(listOf("F5"))
 
         // When
         boat.move()
 
         // Then
-        assertThat(boat.manhattanDistance()).isEqualTo(10)
+        assertThat(boat.manhattanDistance()).isEqualTo(55)
     }
 
     @Test
-    fun `should move boat south when instruction is S`() {
+    fun `should move the waypoint north when instruction is N`() {
         // Given
-        val boat = Boat(listOf("N10", "S5"))
+        val boat = Boat(listOf("N10", "F1"))
 
         // When
         boat.move()
 
         // Then
-        assertThat(boat.manhattanDistance()).isEqualTo(5)
+        assertThat(boat.manhattanDistance()).isEqualTo(21)
     }
 
     @Test
-    fun `should move boat east when instruction is E`() {
+    fun `should move the waypoint south when instruction is S`() {
         // Given
-        val boat = Boat(listOf("N10", "S5", "E15"))
+        val boat = Boat(listOf("S5", "F1"))
 
         // When
         boat.move()
 
         // Then
-        assertThat(boat.manhattanDistance()).isEqualTo(20)
+        assertThat(boat.manhattanDistance()).isEqualTo(14)
     }
 
     @Test
-    fun `should move boat west when instruction is W`() {
+    fun `should move the waypoint east when instruction is E`() {
         // Given
-        val boat = Boat(listOf("N10", "S5", "E15", "W7"))
+        val boat = Boat(listOf("E15", "F1"))
 
         // When
         boat.move()
 
         // Then
-        assertThat(boat.manhattanDistance()).isEqualTo(13)
+        assertThat(boat.manhattanDistance()).isEqualTo(26)
     }
 
     @Test
-    fun `boat should face east at first`() {
+    fun `should move the waypoint west when instruction is W`() {
         // Given
-        val boat = Boat(listOf("W10", "F5"))
+        val boat = Boat(listOf("W7", "F1"))
 
         // When
         boat.move()
 
         // Then
-        assertThat(boat.manhattanDistance()).isEqualTo(5)
+        assertThat(boat.manhattanDistance()).isEqualTo(4)
     }
 
     @Test
@@ -74,7 +74,7 @@ internal class BoatTest {
         boat.move()
 
         // Then
-        assertThat(boat.manhattanDistance()).isEqualTo(5)
+        assertThat(boat.manhattanDistance()).isEqualTo(105)
     }
 
     @Test
@@ -110,7 +110,7 @@ internal class BoatTest {
         boat.move()
 
         // Then
-        assertThat(boat.manhattanDistance()).isEqualTo(15)
+        assertThat(boat.manhattanDistance()).isEqualTo(105)
     }
 
     @Test
@@ -126,11 +126,11 @@ internal class BoatTest {
         boat.move()
 
         // Then
-        assertThat(boat.manhattanDistance()).isEqualTo(25)
+        assertThat(boat.manhattanDistance()).isEqualTo(286)
     }
 
     @Test
-    fun `Day 12 - Part 1`() {
+    fun `Day 12`() {
         // Given
         val boat = Boat(REAL_BOAT_INPUT)
 
@@ -138,6 +138,6 @@ internal class BoatTest {
         boat.move()
 
         // Then
-        assertThat(boat.manhattanDistance()).isEqualTo(796)
+        assertThat(boat.manhattanDistance()).isEqualTo(39446)
     }
 }
