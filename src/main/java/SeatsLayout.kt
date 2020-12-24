@@ -3,7 +3,7 @@ class SeatsLayout(textLayout: String) {
     private val EMPTY_SEAT_SYMBOL = 'L'
     private val OCCUPIED_SEAT_SYMBOL = '#'
     private val ALLOWED_ADJACENT_OCCUPIED_SEATS_TO_OCCUPY = 0
-    private val MAX_ADJACENT_OCCUPIED_SEATS = 4
+    private val MAX_ADJACENT_OCCUPIED_SEATS = 5
 
     init {
         seatsLayout = textLayout.split("\n")
@@ -26,7 +26,7 @@ class SeatsLayout(textLayout: String) {
                     if (!position.isOccupied() && adjacentOccupiedSeats == ALLOWED_ADJACENT_OCCUPIED_SEATS_TO_OCCUPY) Seat(
                         true
                     )
-                    else if (position.isOccupied() && adjacentOccupiedSeats > MAX_ADJACENT_OCCUPIED_SEATS) Seat(false)
+                    else if (position.isOccupied() && adjacentOccupiedSeats >= MAX_ADJACENT_OCCUPIED_SEATS) Seat(false)
                     else position
                 } else position
             }
@@ -35,14 +35,40 @@ class SeatsLayout(textLayout: String) {
 
     private fun adjacentOccupiedSeats(currentLineIndex: Int, currentColumnIndex: Int): Int {
         var adjacentOccupiedSeats = 0
-        for (lineIndex in currentLineIndex - 1..currentLineIndex + 1) {
-            for (columnIndex in currentColumnIndex - 1..currentColumnIndex + 1) {
-                if (seatsLayout.elementAtOrNull(lineIndex)?.elementAtOrNull(columnIndex)?.isOccupied() == true) {
-                    adjacentOccupiedSeats++
+
+        for (lineStep in -1..1) {
+            for (columnStep in -1..1) {
+                if (lineStep == columnStep && lineStep == 0) {
+                    continue
                 }
+                if (isSeatOccupiedInLineOfSight(
+                        currentColumnIndex,
+                        currentLineIndex,
+                        columnStep,
+                        lineStep
+                    )
+                ) adjacentOccupiedSeats++
             }
         }
         return adjacentOccupiedSeats
+    }
+
+    private fun isSeatOccupiedInLineOfSight(
+        currentColumnIndex: Int,
+        currentLineIndex: Int,
+        columnStep: Int,
+        lineStep: Int
+    ): Boolean {
+        var columnIndex = currentColumnIndex + columnStep
+        var lineIndex = currentLineIndex + lineStep
+        while (columnIndex >= 0 && lineIndex >= 0 && columnIndex < seatsLayout[0].size && lineIndex < seatsLayout.size) {
+            if (seatsLayout[lineIndex][columnIndex] is Seat) {
+                return seatsLayout[lineIndex][columnIndex].isOccupied()
+            }
+            columnIndex += columnStep
+            lineIndex += lineStep
+        }
+        return false
     }
 
     fun occupiedSeats(): Int {
