@@ -62,7 +62,7 @@ internal class ShuttleSearchTest {
     }
 
     @Test
-    fun example() {
+    fun `example - Part 1`() {
         // Given
         val shuttleSearch = ShuttleSearch("7,13,x,x,59,x,31,19")
         val earliestDepartureTime = 939
@@ -87,5 +87,59 @@ internal class ShuttleSearchTest {
         // Then
         val waitingTime = waitedBus.departureTime - earliestDepartureTime
         assertThat(waitedBus.id * waitingTime).isEqualTo(4722)
+    }
+
+    @Test
+    fun `example 1 - Part 2`() {
+        // When
+        val shuttleSearch = ShuttleSearch("7,13,x,x,59,x,31,19")
+
+        // Then
+        assertThat(shuttleSearch.findFirstTimestampWhereBusesLeaveInOrder()).isEqualTo(1068781)
+    }
+
+    @Test
+    fun `example 2 - Part 2`() {
+        // When
+        val shuttleSearch = ShuttleSearch("17,x,13,19")
+
+        // Then
+        assertThat(shuttleSearch.findFirstTimestampWhereBusesLeaveInOrder()).isEqualTo(3417)
+    }
+
+    @Test
+    fun `example 3 - Part 2`() {
+        // When
+        val shuttleSearch = ShuttleSearch("67,7,59,61")
+
+        // Then
+        assertThat(shuttleSearch.findFirstTimestampWhereBusesLeaveInOrder()).isEqualTo(754018)
+    }
+
+    @Test
+    fun `example 4 - Part 2`() {
+        // When
+        val shuttleSearch = ShuttleSearch("67,x,7,59,61")
+
+        // Then
+        assertThat(shuttleSearch.findFirstTimestampWhereBusesLeaveInOrder()).isEqualTo(779210)
+    }
+
+    @Test
+    fun `example 5 - Part 2`() {
+        // When
+        val shuttleSearch = ShuttleSearch("67,7,x,59,61")
+
+        // Then
+        assertThat(shuttleSearch.findFirstTimestampWhereBusesLeaveInOrder()).isEqualTo(1261476)
+    }
+
+    @Test
+    fun `Day 13 - Part 2`() {
+        // When
+        val shuttleSearch = ShuttleSearch(REAL_BUS_INPUT[1])
+
+        // Then
+        assertThat(shuttleSearch.findFirstTimestampWhereBusesLeaveInOrder()).isEqualTo(825305207525452)
     }
 }
