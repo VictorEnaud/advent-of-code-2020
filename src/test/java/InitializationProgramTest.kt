@@ -64,4 +64,79 @@ internal class InitializationProgramTest {
         // Then
         assertThat(initializationProgram.sumOfMemoryValues()).isEqualTo(15172047086292)
     }
+
+    @Test
+    fun `should do nothing where bitmask has "0"`() {
+        // Given
+        val initializationProgram = InitializationProgramV2()
+        initializationProgram.updateBitmask("000000000000000000000000000000000000")
+        initializationProgram.saveInMemoryAtAddress(8, 42)
+
+        // When
+        initializationProgram.saveInMemoryAtAddress(7, 62)
+
+        // Then
+        assertThat(initializationProgram.sumOfMemoryValues()).isEqualTo(104)
+    }
+
+    @Test
+    fun `should replace by 1 in memory address binaries where bitmask has "1"`() {
+        // Given
+        val initializationProgram = InitializationProgramV2()
+        initializationProgram.updateBitmask("111111111111111111111111111111111111")
+        initializationProgram.saveInMemoryAtAddress(8, 42)
+
+        // When
+        initializationProgram.saveInMemoryAtAddress(7, 62)
+
+        // Then
+        assertThat(initializationProgram.sumOfMemoryValues()).isEqualTo(62)
+    }
+
+    @Test
+    fun `should save at two memory addresses when bitmask contains only one "X"`() {
+        // Given
+        val initializationProgram = InitializationProgramV2()
+        initializationProgram.updateBitmask("00000000000000000000000000000000000X")
+
+        // When
+        initializationProgram.saveInMemoryAtAddress(8, 42)
+
+        // Then
+        assertThat(initializationProgram.sumOfMemoryValues()).isEqualTo(84)
+    }
+
+    @Test
+    fun `should save at four memory addresses when bitmask contains two "X"`() {
+        // Given
+        val initializationProgram = InitializationProgramV2()
+        initializationProgram.updateBitmask("0000000000000000000000000000000000XX")
+
+        // When
+        initializationProgram.saveInMemoryAtAddress(8, 42)
+
+        // Then
+        assertThat(initializationProgram.sumOfMemoryValues()).isEqualTo(168)
+    }
+
+    @Test
+    fun `Day 14 - Part 2`() {
+        // Given
+        val initializationProgram = InitializationProgramV2()
+
+        // When
+        REAL_INITIALIZATION_INPUT.forEach {
+            val command = it.split(" = ")
+
+            if (command[0] == "mask") {
+                initializationProgram.updateBitmask(command[1])
+            } else {
+                val address = command[0].drop(4).dropLast(1)
+                initializationProgram.saveInMemoryAtAddress(address.toInt(), command[1].toLong())
+            }
+        }
+
+        // Then
+        assertThat(initializationProgram.sumOfMemoryValues()).isEqualTo(4197941339968)
+    }
 }
